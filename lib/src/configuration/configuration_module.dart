@@ -5,5 +5,6 @@ final configurationModule = [
   BlocProvider(
       create: (context) => ConfigurationBloc(
             addNewQueueUseCase: context.read(),
+            removeQueueUseCase: context.read(),
           ))
 ];

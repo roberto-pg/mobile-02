@@ -8,10 +8,10 @@ class AddNewQueueEvent implements ConfigurationEvent {
   AddNewQueueEvent({required this.queue});
 }
 
-// class RemoveQueueEvent implements ConfigurationEvent {
-//   final QueueEntity queue;
+class RemoveQueueEvent implements ConfigurationEvent {
+  final QueueEntity queue;
 
-//   RemoveQueueEvent({required this.queue});
-// }
+  RemoveQueueEvent({required this.queue});
+}
 
 // class RemoveAllOrdersEvent implements ConfigurationEvent {}

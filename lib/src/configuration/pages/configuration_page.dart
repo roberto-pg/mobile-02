@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:queue_mob/src/configuration/blocs/configuration_bloc.dart';
 import 'package:queue_mob/src/configuration/dio/custom_dio.dart';
 import 'package:queue_mob/src/queue/domain/entities/queue_entity.dart';
 import 'package:queue_mob/src/socket/socket_io.dart';
+import 'package:provider/provider.dart';
 
 import '../../queue/infra/adapters/json_to_queue.dart';
-import '../blocs/configuration_bloc.dart';
 import '../events/configuration_event.dart';
-import '../models/queue_model.dart';
+import '../widgets/add_queue_widget.dart';
 
 class ConfigurationPage extends StatefulWidget {
   final CustomDio _customDio;
@@ -29,65 +29,10 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
     widget._customDio.get('/queues');
   }
 
-  void _addNewQueueDialog() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          var queue = QueueModel.empty();
-
-          return AlertDialog(
-            title: const Text('Nova fila'),
-            content: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextFormField(
-                    onChanged: (value) {
-                      queue = queue.copyWith(title: value);
-                    },
-                    decoration: const InputDecoration(
-                        labelText: 'Título', border: OutlineInputBorder()),
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    onChanged: (value) {
-                      queue = queue.copyWith(abbreviation: value);
-                    },
-                    decoration: const InputDecoration(
-                        labelText: 'Abreviação', border: OutlineInputBorder()),
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    onChanged: (value) {
-                      queue = queue.copyWith(priority: int.tryParse(value));
-                    },
-                    decoration: const InputDecoration(
-                        labelText: 'Prioridade', border: OutlineInputBorder()),
-                  ),
-                ],
-              ),
-            ),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Cancelar')),
-              TextButton(
-                  onPressed: () {
-                    context
-                        .read<ConfigurationBloc>()
-                        .add(AddNewQueueEvent(queue: queue));
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Adicionar')),
-            ],
-          );
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final bloc = context.watch<ConfigurationBloc>();
+
     socket.on('load_queues', (queues) {
       List list = queues as List;
       listQueues = list.map((queue) => JsonToQueue.fromMap(queue)).toList();
@@ -108,7 +53,11 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
                   const Text('FILAS'),
                   const Spacer(),
                   IconButton(
-                    onPressed: _addNewQueueDialog,
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) => const AddQueueWidget());
+                    },
                     icon: const Icon(Icons.add),
                   ),
                 ],
@@ -126,7 +75,7 @@ class _ConfigurationPageState extends State<ConfigurationPage> {
                           Text('${listQueues[index].priority} de prioridade'),
                       trailing: IconButton(
                         onPressed: () {
-                          // bloc.add(RemoveQueueEvent(queue: queue));
+                          bloc.add(RemoveQueueEvent(queue: listQueues[index]));
                         },
                         icon: const Icon(
                           Icons.remove,

@@ -15,10 +15,11 @@ class QueueRepository implements IQueueRepository {
     return queue;
   }
 
-  // @override
-  // Future<void> removeQueue(String id) async {
-  //   await datasource.removeQueue(id);
-  // }
+  @override
+  Future<String> removeQueue(String id) async {
+    final queueId = await datasource.removeQueue(id);
+    return queueId;
+  }
 
   // @override
   // Future<void> removeAllOrders() async {

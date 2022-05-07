@@ -1,5 +1,5 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:queue_mob/src/configuration/dio/custom_dio.dart';
 import 'package:nock/nock.dart';
 
 void main() {
@@ -12,8 +12,10 @@ void main() {
   });
 
   test('deve adicionar uma nova Queue', () async {
-    final dio = CustomDio();
-    final interceptor = nock('http://192.168.15.114:3337/api').post(
+    final dio = Dio();
+    String url = const String.fromEnvironment('httpUrl');
+
+    final interceptor = nock(url).post(
       '/create-queue',
       {
         'title': 'Idoso',
@@ -23,7 +25,7 @@ void main() {
     )..reply(201, 'Success');
 
     final response = await dio.post(
-      '/create-queue',
+      '$url/create-queue',
       data: {
         'title': 'Idoso',
         'abbreviation': 'GT',
