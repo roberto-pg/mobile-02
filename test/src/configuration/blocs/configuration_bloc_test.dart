@@ -4,13 +4,16 @@ import 'package:mocktail/mocktail.dart';
 import 'package:queue_mob/src/configuration/blocs/configuration_bloc.dart';
 import 'package:queue_mob/src/configuration/events/configuration_event.dart';
 import 'package:queue_mob/src/configuration/states/configuration_state.dart';
+import 'package:queue_mob/src/queue/infra/adapters/json_to_queue.dart';
 import '../../../mocks/mocks.dart';
 
 void main() {
-  final entity = QueueEntityMock();
+  // final entity = QueueEntityMock();
   late IAddNewQueueUseCaseMock addNewQueueUseCase;
   late IRemoveQueueUseCaseMock removeQueueUseCase;
   late ConfigurationBloc bloc;
+
+  final entity = JsonToQueue.fromMap(jsonData);
 
   setUp(() {
     addNewQueueUseCase = IAddNewQueueUseCaseMock();
@@ -28,6 +31,17 @@ void main() {
       return bloc;
     },
     act: (bloc) => bloc.add(AddNewQueueEvent(queue: entity)),
+    expect: () => [],
+  );
+
+  blocTest<ConfigurationBloc, ConfigurationState>(
+    'remove queues',
+    build: () {
+      when(() => removeQueueUseCase.call(entity.id))
+          .thenAnswer((_) => Future.value(entity.id));
+      return bloc;
+    },
+    act: (bloc) => bloc.add(RemoveQueueEvent(queue: entity)),
     expect: () => [],
   );
 }
