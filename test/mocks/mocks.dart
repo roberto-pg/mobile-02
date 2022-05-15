@@ -22,7 +22,7 @@ class IAddNewQueueUseCaseMock extends Mock implements IAddNewQueueUseCase {}
 class IRemoveQueueUseCaseMock extends Mock implements IRemoveQueueUseCase {}
 
 Map<String, Object> jsonData = {
-  'id': 'wiiieiie',
+  'id': '07a9aa0e-09b5-471d-b81b-bb4bfdd5d000',
   'title': 'Idoso',
   'abbreviation': 'GT',
   'priority': 3,

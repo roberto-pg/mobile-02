@@ -16,6 +16,6 @@ void main() {
     final result = await useCase.call(queue.id);
 
     expect(useCase.call(queue.id), completes);
-    expect(result, 'wiiieiie');
+    expect(result, '07a9aa0e-09b5-471d-b81b-bb4bfdd5d000');
   });
 }

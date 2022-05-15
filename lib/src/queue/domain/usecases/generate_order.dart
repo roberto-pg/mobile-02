@@ -1,35 +1,36 @@
-// import '../entities/queue_entity.dart';
-// import '../value_objects/order.dart';
 
-// abstract class IGenerateOrderUseCase {
-//   QueueEntity call(QueueEntity queueEntity);
-// }
+import '../entities/queue_entity.dart';
+import '../value_objects/order.dart';
 
-// class GenerateOrderUseCase implements IGenerateOrderUseCase {
-//   @override
-//   QueueEntity call(QueueEntity queueEntity) {
-//     final orders = List<Order>.from(queueEntity.orders);
+abstract class IGenerateOrderUseCase {
+  QueueEntity call(QueueEntity queueEntity);
+}
 
-//     final totalOrders = orders.length;
-//     final order = Order(
-//       id: _generateId(totalOrders + 1),
-//       position: totalOrders + 1,
-//       timestamp: DateTime.now(),
-//       status: OrderStatus.waiting,
-//     );
+class GenerateOrderUseCase implements IGenerateOrderUseCase {
+  @override
+  QueueEntity call(QueueEntity queueEntity) {
+    final orders = List<Order>.from(queueEntity.orders);
 
-//     orders.add(order);
+    final totalOrders = orders.length;
+    final order = Order(
+      id: _generateId(totalOrders + 1),
+      position: totalOrders + 1,
+      timestamp: DateTime.now(),
+      status: OrderStatus.waiting,
+    );
 
-//     return QueueEntity(
-//       id: queueEntity.id,
-//       title: queueEntity.title,
-//       abbreviation: queueEntity.abbreviation,
-//       priority: queueEntity.priority,
-//       orders: orders,
-//     );
-//   }
+    orders.add(order);
 
-//   String _generateId(int id) {
-//     return id.toString().padLeft(4, '0');
-//   }
-// }
+    return QueueEntity(
+      id: queueEntity.id,
+      title: queueEntity.title,
+      abbreviation: queueEntity.abbreviation,
+      priority: queueEntity.priority,
+      orders: orders,
+    );
+  }
+
+  String _generateId(int id) {
+    return id.toString().padLeft(4, '0');
+  }
+}
