@@ -1,16 +1,13 @@
-# queue_mob
+## Repository for study and tests
 
-A new Flutter project.
+<br/>
 
-## Getting Started
+All About Firebase - Full App
 
-This project is a starting point for a Flutter application.
+This application was created by Jacob Moura, from Flutterando, to teach how to use Firebase together with Bloc
 
-A few resources to get you started if this is your first Flutter project:
+As I don't like working with Firebase, I removed it from the project and I'm using socket-io-client to display the changes coming from Postgres in real time
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+### Thanks to:
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+[Jacob Moura](https://www.youtube.com/watch?v=cWdGy0EtpI4&list=PLlBnICoI-g-fN96Bz1v7343x2pmx_0RGH)
